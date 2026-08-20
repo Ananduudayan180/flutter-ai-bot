@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ai_bot/core/theme/color_theme.dart';
+import 'package:flutter_ai_bot/core/theme/text_theme.dart';
 
 final darkTheme = ThemeData(
+  textTheme: textTheme,
   scaffoldBackgroundColor: Color(0xFF000000),
   colorScheme: darkColorScheme,
   appBarTheme: AppBarTheme(
@@ -12,6 +14,7 @@ final darkTheme = ThemeData(
 );
 
 final lightTheme = ThemeData(
+  textTheme: textTheme,
   scaffoldBackgroundColor: Colors.white,
   colorScheme: lightColorScheme,
   appBarTheme: AppBarTheme(
