@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ai_bot/features/chat/data/chat_model.dart';
 import 'package:flutter_ai_bot/features/chat/presentation/widgets/build_chat_list.dart';
+import 'package:flutter_ai_bot/features/chat/presentation/widgets/chat_app_bar.dart';
 
 class ChatView extends StatefulWidget {
   const ChatView({super.key});
@@ -37,6 +38,7 @@ class _ChatViewState extends State<ChatView> {
     ];
 
     return Scaffold(
+      appBar: const ChatAppBar(),
       body: SafeArea(
         child: Column(children: [BuildChatList(messages: chatModels)]),
       ),
