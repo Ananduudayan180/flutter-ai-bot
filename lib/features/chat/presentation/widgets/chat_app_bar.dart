@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ai_bot/core/theme/theme_mode_notifier.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
+class ChatAppBar extends ConsumerWidget implements PreferredSizeWidget {
   const ChatAppBar({super.key});
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
+    final themeMode = ref.read(themeModeProvider);
     return AppBar(
       title: Row(
         children: [
@@ -34,7 +37,15 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ],
       ),
-      actions: [IconButton(icon: Icon(Icons.more_vert), onPressed: () {})],
+      actions: [
+        IconButton(
+          icon: Icon(
+            themeMode == ThemeMode.light ? Icons.dark_mode : Icons.light_mode,
+          ),
+          onPressed: () => ref.read(themeModeProvider.notifier).toggleTheme(),
+        ),
+        IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
+      ],
     );
   }
 }
