@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ai_bot/features/chat/data/chat_model.dart';
+import 'package:flutter_ai_bot/features/chat/presentation/providers/chat_notifier.dart';
 import 'package:flutter_ai_bot/features/chat/presentation/widgets/build_chat_list.dart';
 import 'package:flutter_ai_bot/features/chat/presentation/widgets/chat_app_bar.dart';
 import 'package:flutter_ai_bot/features/chat/presentation/widgets/chat_input_field.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ChatView extends StatefulWidget {
+class ChatView extends ConsumerStatefulWidget {
   const ChatView({super.key});
 
   @override
-  State<ChatView> createState() => _ChatViewState();
+  ConsumerState<ChatView> createState() => _ChatViewState();
 }
 
-class _ChatViewState extends State<ChatView> {
+class _ChatViewState extends ConsumerState<ChatView> {
   final TextEditingController _textController = TextEditingController();
 
   @override
@@ -20,36 +21,22 @@ class _ChatViewState extends State<ChatView> {
     super.dispose();
   }
 
+  void callGemini() {
+    final prompt = _textController.text.trim();
+    if (prompt.isEmpty) return;
+    ref.read(chatProvider.notifier).fetchGeminiResponse(prompt);
+    _textController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final List<ChatModel> chatModels = [
-      ChatModel(isMe: true, text: 'Hey! How can I help you today?'),
-      ChatModel(isMe: false, text: 'Can you explain Flutter State Management?'),
-      ChatModel(
-        isMe: true,
-        text:
-            'Sure! Flutter has several state management solutions like BLoC, Provider, Riverpod, and GetX.',
-      ),
-      ChatModel(isMe: false, text: 'Which one is best for a large project?'),
-      ChatModel(
-        isMe: true,
-        text:
-            'BLoC is a good choice for large and scalable Flutter applications.',
-      ),
-    ];
-
     return Scaffold(
       appBar: const ChatAppBar(),
       body: SafeArea(
         child: Column(
           children: [
-            BuildChatList(messages: chatModels),
-            ChatInputField(
-              controller: _textController,
-              onSend: () {
-                // Handle send action
-              },
-            ),
+            BuildChatList(),
+            ChatInputField(controller: _textController, onSend: callGemini),
           ],
         ),
       ),
