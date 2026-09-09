@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ai_bot/features/chat/presentation/providers/chat_notifier.dart';
-import 'package:flutter_ai_bot/features/chat/presentation/widgets/build_chat_list.dart';
+import 'package:flutter_ai_bot/features/chat/presentation/widgets/build_chat_state.dart';
 import 'package:flutter_ai_bot/features/chat/presentation/widgets/chat_app_bar.dart';
 import 'package:flutter_ai_bot/features/chat/presentation/widgets/chat_input_field.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,7 +35,7 @@ class _ChatViewState extends ConsumerState<ChatView> {
       body: SafeArea(
         child: Column(
           children: [
-            BuildChatList(),
+            const BuildChatState(),
             ChatInputField(controller: _textController, onSend: callGemini),
           ],
         ),

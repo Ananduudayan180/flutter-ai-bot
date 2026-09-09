@@ -5,8 +5,8 @@ import 'package:flutter_ai_bot/features/chat/presentation/widgets/chat_bubble.da
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-class BuildChatList extends ConsumerWidget {
-  const BuildChatList({super.key});
+class BuildChatState extends ConsumerWidget {
+  const BuildChatState({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
