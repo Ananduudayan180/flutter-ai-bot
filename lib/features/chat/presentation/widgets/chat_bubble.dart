@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ai_bot/features/chat/data/chat_model.dart';
+import 'package:flutter_ai_bot/features/chat/data/model/chat_model.dart';
 
 class ChatBubble extends StatelessWidget {
-  final ChatModel message;
+  final AiChatModel message;
 
   const ChatBubble({super.key, required this.message});
 
