@@ -1,26 +1,35 @@
 import 'package:flutter_ai_bot/features/chat/data/model/chat_model.dart';
 import 'package:flutter_ai_bot/features/chat/presentation/providers/chat_provider.dart';
+import 'package:flutter_ai_bot/features/chat/presentation/providers/chat_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ChatNotifier extends Notifier<AsyncValue<AiChatModel?>> {
+class ChatNotifier extends Notifier<ChatState> {
   @override
-  AsyncValue<AiChatModel?> build() {
-    return const AsyncValue.data(null);
+  ChatState build() {
+    return ChatState();
   }
 
   Future<void> fetchGeminiResponse(String prompt) async {
-    state = const AsyncValue.loading();
-    try {
-      final chatRepo = ref.read(chatRepoProvider);
-      final aiChatModel = await chatRepo.fetchGeminiResponse(prompt);
+    final userMessage = AiChatModel(isMe: true, text: prompt);
 
-      state = AsyncValue.data(aiChatModel);
-    } catch (e, st) {
-      state = AsyncValue.error(e, st);
+    final updatedMessages = [...state.messages, userMessage];
+
+    state = state.copyWith(messages: updatedMessages, isLoading: true);
+
+    try {
+      final aiResponse = await ref
+          .read(chatRepoProvider)
+          .fetchGeminiResponse(prompt);
+
+      final finalMessages = [...updatedMessages, aiResponse];
+
+      state = state.copyWith(messages: finalMessages, isLoading: false);
+    } catch (e, _) {
+      state = state.copyWith(errorMsg: e.toString(), isLoading: false);
     }
   }
 }
 
-final chatProvider = NotifierProvider<ChatNotifier, AsyncValue<AiChatModel?>>(
+final chatProvider = NotifierProvider<ChatNotifier, ChatState>(
   ChatNotifier.new,
 );
