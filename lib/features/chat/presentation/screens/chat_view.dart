@@ -32,12 +32,15 @@ class _ChatViewState extends ConsumerState<ChatView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const ChatAppBar(),
-      body: SafeArea(
-        child: Column(
-          children: [
-            const BuildChatState(),
-            ChatInputField(controller: _textController, onSend: callGemini),
-          ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+        child: SafeArea(
+          child: Column(
+            children: [
+              Expanded(child: const BuildChatState()),
+              ChatInputField(controller: _textController, onSend: callGemini),
+            ],
+          ),
         ),
       ),
     );
