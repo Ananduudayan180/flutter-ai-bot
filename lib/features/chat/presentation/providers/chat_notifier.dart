@@ -9,6 +9,10 @@ class ChatNotifier extends Notifier<ChatState> {
     return ChatState();
   }
 
+  void switchAi(CurrentAi currentAi) {
+    state = state.copyWith(currentAi: currentAi);
+  }
+
   Future<void> fetchGeminiResponse(String prompt) async {
     final userMessage = AiChatModel(isMe: true, text: prompt);
 
